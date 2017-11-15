@@ -1,8 +1,10 @@
 /**
  * Created by wangpan on 02/11/2017.
  */
+const Constants = require('./constants');
+
 module.exports = {
-    APIError: function (code, message) {
+    ApiError: function (code, message) {
         this.code = code || 'internal:unknown_error';
         this.message = message || '';
     },
@@ -17,7 +19,16 @@ module.exports = {
                     ctx.response.type = 'application/json';
                     ctx.response.body = data;
                 }
-                await next();
+                try {
+                    await next();
+                } catch (e) {
+                    ctx.response.status = Constants.API_ERR_HTTP_CODE;
+                    ctx.response.type = 'application/json';
+                    ctx.response.body = {
+                        code: e.code || 'unknown_error',
+                        message: e.message || '位置错误'
+                    };
+                }
             } else {
                 await next();
             }

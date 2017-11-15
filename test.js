@@ -1,21 +1,19 @@
-/**
- * Created by wangpan on 08/11/2017.
- */
-/**
- * Created by wangpan on 02/11/2017.
- */
-const Sequelize = require('sequelize');
-
-var sequelize = new Sequelize('warehouse', 'wangpan', 'wangpan', {
-    host: '172.16.51.14',
-    dialect: 'mysql',
-    pool: {
-        max: 5,
-        min: 0,
-        idle: 30000
-    }
-});
-sequelize.query("select date_day as date,  pattern_code as type, per_or as overdue_rate from `bi_or_test`", { type: sequelize.QueryTypes.SELECT})
-    .then(results => {
-        console.log(results);
-    });
+// const USER = require('./database/user/userDbHandler');
+// var test = async () => {
+//         var created = await USER.getOrCreateUser('lipan', '123456');
+//         console.log(`结果是：${created}`)
+//         if(created) {
+//             console.log("创建用户成功：" + created);
+//         } else {
+//             console.log("创建用户失败1");
+//         }
+// };
+// test().then((result)=>{
+//     console.log(`success: ${result}`);
+// }, (err)=>{
+//     console.log(`err: ${err}`);
+// });
+const logger = require('./utils/logger');
+logger.debug("debug");
+logger.error("error");
+logger.info("info");

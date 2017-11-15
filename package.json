@@ -19,6 +19,7 @@
     "mysql2": "^1.4.2",
     "mz": "^2.7.0",
     "nunjucks": "^3.0.1",
-    "sequelize": "^4.22.0"
+    "sequelize": "^4.22.0",
+    "winston": "^2.4.0"
   }
 }
