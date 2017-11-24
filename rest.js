@@ -22,11 +22,16 @@ module.exports = {
                 try {
                     await next();
                 } catch (e) {
-                    ctx.response.status = Constants.API_ERR_HTTP_CODE;
+                    let is401 = 401 === e.status;
+                    if(is401) {
+                        ctx.response.status = 401;
+                    } else {
+                        ctx.response.status = Constants.API_ERR_HTTP_CODE;
+                    }
                     ctx.response.type = 'application/json';
                     ctx.response.body = {
-                        code: e.code || 'unknown_error',
-                        message: e.message || '位置错误'
+                        code: is401 ? Constants.API_ERR_AUTH : (e.code || 'unknown_error'),
+                        message: e.message || '未知错误'
                     };
                 }
             } else {
