@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 const APIError = require('../rest').ApiError;
 const USER = require('../database/user/userDbHandler');
 const logger = rootRequire('utils/logger');
@@ -13,6 +14,7 @@ module.exports = {
                 if (username === user.name && password === user.password) {
                     ctx.rest({
                         code: 'ok',
+                        token: jwt.sign({username: username}, 'shared-secret'),
                         message: '登录成功'
                     });
                 } else {
@@ -29,6 +31,7 @@ module.exports = {
         var
             username = ctx.request.body.username || '',
             password = ctx.request.body.password || '';
+        logger.debug("user = %j", ctx.state.user);
         if (username && password) {
             var created = await USER.getOrCreateUser(username, password);
             logger.debug(`created = ${created}`);

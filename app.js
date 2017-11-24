@@ -6,11 +6,13 @@ global.rootRequire = function(name) {
 
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const jwt = require('koa-jwt');
 const app = new Koa();
 const controller = require('./controller');
 let staticFiles = require('./static-files');
 let templating = require('./templating');
 let rest = require('./rest');
+
 
 
 app.use(async (ctx, next) => {
@@ -27,6 +29,8 @@ app.use(templating('views', {
     noCache: !isProduction,
     watch: !isProduction
 }));
+
+app.use(jwt({ secret: 'shared-secret' }).unless({path: [/^\/api\/signin/]}));
 
 app.use(controller());
 app.listen(3000);
