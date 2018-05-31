@@ -1,5 +1,5 @@
-let sequelize = require('../database/database_bi');
-const APIError = require('../rest').ApiError;
+let sequelize = require('../../database/database_bi');
+const APIError = require('../../rest').ApiError;
 
 module.exports = {
     'GET /api/overduerate': async (ctx, next) => {

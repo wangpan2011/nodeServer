@@ -1,9 +1,9 @@
-const products = require('../products');
+const products = require('../../products');
 
-const APIError = require('../rest').ApiError;
+const APIError = require('../../rest').ApiError;
 
 module.exports = {
-    'GET /api/products': async (ctx, next) => {
+    'GET /api/public/products': async (ctx, next) => {
         ctx.rest({
             products: await products.getProducts()
         });

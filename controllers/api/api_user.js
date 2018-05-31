@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const APIError = require('../rest').ApiError;
-const USER = require('../database/user/userDbHandler');
+const APIError = require('../../rest').ApiError;
+const USER = require('../../database/user/userDbHandler');
 const logger = rootRequire('utils/logger');
 
 module.exports = {
-    'POST /api/signin': async (ctx, next) => {
+    'POST /api/public/signin': async (ctx, next) => {
         var
             username = ctx.request.body.username || '',
             password = ctx.request.body.password || '';

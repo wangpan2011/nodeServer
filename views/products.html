@@ -33,7 +33,7 @@ $(function () {
         }
     });
 
-    $.getJSON('/api/products').done(function (data) {
+    $.getJSON('/api/public/products').done(function (data) {
         vm.products = data.products;
     }).fail(function (jqXHR, textStatus) {
         alert('Error: ' + jqXHR.status);

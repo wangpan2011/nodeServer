@@ -1,7 +1,7 @@
 /**
  * Created by wangpan on 30/10/2017.
  */
-const fs = require('fs');
+const glob = require('glob');
 function addMapping(router, mapping) {
     for (var url in mapping) {
         if (url.startsWith('GET ')) {
@@ -19,17 +19,19 @@ function addMapping(router, mapping) {
 }
 
 function addControllers(router, controllers_dir) {
-    var files = fs.readdirSync(__dirname + '/' + controllers_dir);
-    var js_files = files.filter((f) => {
+    let files = glob.sync(__dirname + '/' + controllers_dir + "/**/*.js");
+    console.log("扫描出的js Controller文件个数=" + files.length);
+    let js_files = files.filter((f) => {
         return f.endsWith('.js');
     });
 
     for (var f of js_files) {
         console.log(`process controller: ${f}...`);
-        let mapping = require(__dirname + '/' + controllers_dir + '/' + f);
+        let mapping = require(f);
         addMapping(router, mapping);
     }
 }
+
 module.exports = function (dir) {
     let
         controllers_dir = dir || 'controllers', // 如果不传参数，扫描目录默认为'controllers'
