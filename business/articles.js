@@ -2,26 +2,70 @@
 let tableArticles = require('./databases/tableArticles');
 const sequelize = require('./databases/database_shuchong');
 const Sequelize = require('sequelize');
+const Promise = require('bluebird');
 
 module.exports = {
-    getArticles: () => {
+    getArticles: (token) => {
         // var articles = tableArticles.findAll();
         // return articles;
-        return sequelize.query('SELECT * FROM articles', {
+        let tasks = [];
+        let articlesPromise = sequelize.query('SELECT id, type, title, url, imageCenter, summary FROM articles', {
             logging: console.log,
             plain: false,
             raw: false,
             type: Sequelize.QueryTypes.SELECT
         });
-        },
-
-    getProduct: (id) => {
-            var product = tableArticles.findAll({
-                where: {
-                    id: id
+        tasks.push(articlesPromise);
+        if(token) {
+            let favoritesPromise = sequelize.query('SELECT articleId FROM favoriteArticles where userId = :userId', {
+                logging: console.log,
+                plain: false,
+                raw: true,
+                type: Sequelize.QueryTypes.SELECT,
+                replacements: {userId: "1"}
+            });
+            tasks.push(favoritesPromise);
+        }
+        return Promise.all(tasks).then((results) => {
+            let articles = results[0];
+            let favorites = results[1];
+            articles.map((article) => {
+                let type = article.type;
+                switch (type) {
+                    case 1:
+                        article.typeTitle = "关于书虫";
+                        break;
+                    case 2:
+                        article.typeTitle = "每日一篇";
+                        break;
+                    case 3:
+                        article.typeTitle = "每日一篇";
+                        break;
+                    case 4:
+                        article.typeTitle = "为您推荐";
+                        break;
+                    default:
+                        article.typeTitle = "书虫推荐";
+                        break;
+                }
+                let favoriteIds = favorites.map(favorite => favorite.articleId);
+                if(favorites && favoriteIds.indexOf(article.id) != -1) {
+                    article.favorite = true;
+                } else {
+                    article.favorite = false;
                 }
             });
-            return product;
+            return articles;
+        });
+    },
+
+    getProduct: (id) => {
+        var product = tableArticles.findAll({
+            where: {
+                id: id
+            }
+        });
+        return product;
     },
 
     createProduct: (name, manufacturer, price) => {

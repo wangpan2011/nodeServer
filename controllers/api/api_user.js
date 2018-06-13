@@ -2,8 +2,32 @@ const jwt = require('jsonwebtoken');
 const APIError = require('../../rest').ApiError;
 const USER = require('../../database/user/userDbHandler');
 const logger = rootRequire('utils/logger');
+const axios = require('axios');
 
 module.exports = {
+    'POST /api/public/login': async (ctx, next) => {
+        let weixinCode = ctx.request.body.weixinCode || '';
+        if (weixinCode) {
+            let userinfo = await axios.get('https://api.weixin.qq.com/sns/oauth2/access_token', {
+                params: {
+                    appid: 'wx18815da5a5a8cd71',
+                    secret: '26794b26f43c96ae31724601dd29670f',
+                    code: weixinCode,
+                    grant_type: 'authorization_code'
+                }
+            }).then((data)=>{
+                console.log("微信accessToken: " + data.data);
+                return axios.get('https://api.weixin.qq.com/sns/userinfo?access_token=' + data.data.access_token + '&openid=' + data.data.openid);
+            }).then((data) => {
+                return data.data;
+            }).catch((err) => {
+                throw new APIError("weixin_server_err", "微信服务出错：" + err);
+            });
+            ctx.rest(userinfo);
+        } else {
+            throw new APIError("user_name_err", "微信code不能为空");
+        }
+    },
     'POST /api/public/signin': async (ctx, next) => {
         var
             username = ctx.request.body.username || '',

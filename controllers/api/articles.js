@@ -5,7 +5,7 @@ const APIError = require('../../rest').ApiError;
 module.exports = {
     'GET /api/public/articles': async (ctx, next) => {
         ctx.rest({
-            articles: await articles.getArticles(ctx.req.headers.token|null)
+            articles: await articles.getArticles(ctx.req.headers.token || 'abcd')
         });
     },
 
