@@ -5,9 +5,7 @@ const Sequelize = require('sequelize');
 const Promise = require('bluebird');
 
 module.exports = {
-    getArticles: (token) => {
-        // var articles = tableArticles.findAll();
-        // return articles;
+    getArticles: (openid) => {
         let tasks = [];
         let articlesPromise = sequelize.query('SELECT id, type, title, url, imageCenter, summary FROM articles', {
             logging: console.log,
@@ -16,20 +14,24 @@ module.exports = {
             type: Sequelize.QueryTypes.SELECT
         });
         tasks.push(articlesPromise);
-        if(token) {
+        if(openid) {
             let favoritesPromise = sequelize.query('SELECT articleId FROM favoriteArticles where userId = :userId', {
                 logging: console.log,
                 plain: false,
                 raw: true,
                 type: Sequelize.QueryTypes.SELECT,
-                replacements: {userId: "1"}
+                replacements: {userId: openid}
             });
             tasks.push(favoritesPromise);
         }
         return Promise.all(tasks).then((results) => {
             let articles = results[0];
-            let favorites = results[1];
-            articles.map((article) => {
+            let favoriteIds;
+            if(openid) {
+                let favorites = results[1];
+                favoriteIds = favorites.map(favorite => favorite.articleId);
+            }
+            articles.forEach((article) => {
                 let type = article.type;
                 switch (type) {
                     case 1:
@@ -48,11 +50,9 @@ module.exports = {
                         article.typeTitle = "书虫推荐";
                         break;
                 }
-                let favoriteIds = favorites.map(favorite => favorite.articleId);
-                if(favorites && favoriteIds.indexOf(article.id) != -1) {
+                article.favorite = false;
+                if(openid && favoriteIds && favoriteIds.indexOf(article.id) != -1) {
                     article.favorite = true;
-                } else {
-                    article.favorite = false;
                 }
             });
             return articles;

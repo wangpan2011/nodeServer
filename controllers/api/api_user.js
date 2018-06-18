@@ -58,6 +58,7 @@ module.exports = {
             throw new APIError("user_name_err", "微信code不能为空");
         }
     },
+
     'POST /api/message/write': async (ctx, next) => {
         let openid = ctx.request.headers.openid || '';
         let bookid = ctx.request.body.bookid || '';
@@ -108,7 +109,34 @@ module.exports = {
         }
     },
 
-
+    'POST /api/public/message': async (ctx, next) => {
+        let bookId = ctx.request.body.bookId || '';
+        if (!bookId) {
+            throw new APIError("params_required", "参数不能为空：bookId");
+        }
+        user.hasMany(message, {foreignKey: 'userId'});
+        message.belongsTo(user, {foreignKey: 'userId'});
+        let allMsgs = await message.findAll({
+            where: {bookId: bookId},
+            include:[user]
+        });
+        // let newUpCount = await message.increment('upCount', {
+        //     where: {id: messageId}
+        // }).then(
+        //     () => message.findById(messageId)
+        // ).then(
+        //     data => {return data.upCount;}
+        // ).catch();
+        if(allMsgs) {
+            // allMsgs.forEach(cur => {
+            //     delete cur.userId;
+            //     delete cur.user.id;
+            // })
+            ctx.rest(allMsgs);
+        } else {
+            throw new APIError("error", "查询留言失败");
+        }
+    },
 
     'POST /api/public/signin': async (ctx, next) => {
         var

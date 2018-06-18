@@ -4,9 +4,7 @@ const APIError = require('../../rest').ApiError;
 
 module.exports = {
     'GET /api/public/articles': async (ctx, next) => {
-        ctx.rest({
-            articles: await articles.getArticles(ctx.req.headers.token || 'abcd')
-        });
+        ctx.rest(await articles.getArticles(ctx.request.headers.openid));
     },
 
     'POST /api/products': async (ctx, next) => {

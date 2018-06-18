@@ -9,7 +9,6 @@ module.exports = sequelize.define('user', {
         primaryKey: true
     },
     avatar: Sequelize.STRING(100),
-    weixinToken: Sequelize.STRING(300),
     weixinName: Sequelize.STRING(300),
 }, {
     timestamps: false
