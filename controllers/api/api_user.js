@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const APIError = require('../../rest').ApiError;
 const USER = require('../../database/user/userDbHandler');
+const user = require('../../business/databases/tableUsers')
 const logger = rootRequire('utils/logger');
 const axios = require('axios');
 
