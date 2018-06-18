@@ -30,7 +30,7 @@ app.use(templating('views', {
     watch: !isProduction
 }));
 
-app.use(jwt({ secret: 'shared-secret' }).unless({path: [/^\/api\/public\/.*/, /^\/(?!api).*/]})); //排除 1. /api/public/ 2. 非/api开头的
+//app.use(jwt({ secret: 'shared-secret' }).unless({path: [/^\/api\/public\/.*/, /^\/(?!api).*/]})); //排除 1. /api/public/ 2. 非/api开头的
 
 app.use(controller());
 app.listen(3000);
