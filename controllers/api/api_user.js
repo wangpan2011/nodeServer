@@ -120,13 +120,6 @@ module.exports = {
             where: {bookId: bookId},
             include:[user]
         });
-        // let newUpCount = await message.increment('upCount', {
-        //     where: {id: messageId}
-        // }).then(
-        //     () => message.findById(messageId)
-        // ).then(
-        //     data => {return data.upCount;}
-        // ).catch();
         if(allMsgs) {
             // allMsgs.forEach(cur => {
             //     delete cur.userId;
@@ -137,6 +130,48 @@ module.exports = {
             throw new APIError("error", "查询留言失败");
         }
     },
+
+    'POST /api/message/up': async (ctx, next) => {
+        let openid = ctx.request.headers.openid || '';
+        let messageId = ctx.request.body.messageId || '';
+        if (!openid) {
+            throw new APIError("not_login", "请先登录");
+        }
+        if (!messageId) {
+            throw new APIError("params_required", "参数不能为空：messageId");
+        }
+
+        let newUpCount = await message.increment('upCount', {
+            where: {id: messageId}
+        }).then(
+            () => message.findById(messageId)
+        ).then(
+            data => {return data.upCount;}
+        ).catch();
+        if(newUpCount) {
+            ctx.rest(newUpCount);
+        } else {
+            throw new APIError("error", "点赞留言失败");
+        }
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     'POST /api/public/signin': async (ctx, next) => {
         var

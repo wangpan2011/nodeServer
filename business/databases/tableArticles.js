@@ -13,7 +13,8 @@ module.exports = sequelize.define('article', {
     mediaType: Sequelize.STRING(30),
     mediaUrl: Sequelize.STRING(30),
     introductionTitle: Sequelize.STRING(30),
-    introduction: Sequelize.STRING(300)
+    introduction: Sequelize.STRING(300),
+    bookId: Sequelize.BIGINT
 }, {
     timestamps: false
 });

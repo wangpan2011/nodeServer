@@ -1,5 +1,8 @@
 // store products as database:
 let tableArticles = require('./databases/tableArticles');
+let tableBooks = require('./databases/tableBooks');
+let tableMessages = require('./databases/tableMessages');
+const tableUsers = require('./databases/tableUsers');
 const sequelize = require('./databases/database_shuchong');
 const Sequelize = require('sequelize');
 const Promise = require('bluebird');
@@ -14,7 +17,7 @@ module.exports = {
             type: Sequelize.QueryTypes.SELECT
         });
         tasks.push(articlesPromise);
-        if(openid) {
+        if (openid) {
             let favoritesPromise = sequelize.query('SELECT articleId FROM favoriteArticles where userId = :userId', {
                 logging: console.log,
                 plain: false,
@@ -27,7 +30,7 @@ module.exports = {
         return Promise.all(tasks).then((results) => {
             let articles = results[0];
             let favoriteIds;
-            if(openid) {
+            if (openid) {
                 let favorites = results[1];
                 favoriteIds = favorites.map(favorite => favorite.articleId);
             }
@@ -51,13 +54,56 @@ module.exports = {
                         break;
                 }
                 article.favorite = false;
-                if(openid && favoriteIds && favoriteIds.indexOf(article.id) != -1) {
+                if (openid && favoriteIds && favoriteIds.indexOf(article.id) != -1) {
                     article.favorite = true;
                 }
             });
             return articles;
         });
     },
+
+    articleDetail: (articleId) => {
+        return tableArticles.findById(articleId).then(
+            (article) => {
+                return new Promise(function (resolve, reject) {
+                    tableUsers.hasMany(tableMessages, {foreignKey: 'userId'});
+                    tableMessages.belongsTo(tableUsers, {foreignKey: 'userId'});
+                    let messagesPromise = tableMessages.findAll({
+                        where: {bookId: article.bookId},
+                        include: [tableUsers]
+                    });
+                    Promise.all([tableBooks.findById(article.bookId), messagesPromise])
+                        .then((results) => {
+                            article = article.dataValues;
+                            article.book = results[0].dataValues;
+                            article.comments = results[1].map( comment => comment.dataValues);
+                            article.comments.forEach( comment => {
+                                delete comment.userId;
+                                delete comment.bookId;
+                            });
+                            delete article.bookId;
+                            resolve(article);
+                        })
+                        .catch(err => reject(err));
+                });
+            }
+        );
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     getProduct: (id) => {
         var product = tableArticles.findAll({
