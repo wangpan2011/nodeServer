@@ -14,7 +14,10 @@ module.exports = sequelize.define('article', {
     mediaUrl: Sequelize.STRING(30),
     introductionTitle: Sequelize.STRING(30),
     introduction: Sequelize.STRING(300),
-    bookId: Sequelize.BIGINT
+    bookId: Sequelize.BIGINT,
+    url: Sequelize.STRING(100),
+    imageCenter: Sequelize.STRING(100),
+    summary: Sequelize.TEXT,
 }, {
     timestamps: false
 });
