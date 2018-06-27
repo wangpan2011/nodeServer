@@ -35,6 +35,7 @@ module.exports = {
         let title = ctx.request.body.title || '';
         let mediaType = ctx.request.body.mediaType || '';
         let mediaUrl = ctx.request.body.mediaUrl || '';
+        let mediaTitle = ctx.request.body.mediaTitle || '';
         let introductionTitle = ctx.request.body.introductionTitle || '';
         let introduction = ctx.request.body.introduction || '';
         let bookId = ctx.request.body.bookId || '';
@@ -50,6 +51,7 @@ module.exports = {
             title: title,
             mediaType: mediaType,
             mediaUrl: mediaUrl,
+            mediaTitle: mediaTitle,
             introductionTitle: introductionTitle,
             introduction: introduction,
             bookId: bookId,

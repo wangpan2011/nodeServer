@@ -12,6 +12,7 @@ module.exports = sequelize.define('article', {
     title: Sequelize.STRING(100),
     mediaType: Sequelize.STRING(30),
     mediaUrl: Sequelize.STRING(30),
+    mediaTitle: Sequelize.STRING(30),
     introductionTitle: Sequelize.STRING(30),
     introduction: Sequelize.STRING(300),
     bookId: Sequelize.BIGINT,
