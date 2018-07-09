@@ -1,6 +1,7 @@
 const APIError = require('../../rest').ApiError;
 const tableBooks = require('../../business/databases/tableBooks');
 const tableArticles = require('../../business/databases/tableArticles');
+const fs = require('fs');
 
 module.exports = {
     'POST /api/public/guanli/book': async (ctx, next) => {
@@ -61,6 +62,28 @@ module.exports = {
         });
         if(result) {
             ctx.rest("保存成功");
+        } else {
+            throw new APIError("error", "保存失败");
+        }
+    },
+    'POST /api/public/guanli/form_test': async (ctx, next) => {
+        let password = ctx.request.body.password || '';
+        let book_name = ctx.request.body.book_name || '';
+        let book_cover = ctx.request.body.book_cover || '';
+        let book_intro = ctx.request.body.book_intro || '';
+        if (!password || password !== '123') {
+            throw new APIError("not_login", "密码为空或密码错误");
+        }
+        if (!book_cover) {
+            throw new APIError("params_required", "书名不能为空");
+        }
+        if (!book_intro) {
+            throw new APIError("params_required", "封面不能为空");
+        }
+        if(true) {
+            //ctx.response.type = 'text/html';
+            ctx.response.redirect('/static/html/hello.html');
+            //ctx.response.body = fs.createReadStream('static/html/hello.html')
         } else {
             throw new APIError("error", "保存失败");
         }

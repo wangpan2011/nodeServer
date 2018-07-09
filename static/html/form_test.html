@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>管理后台</title>
+    <style>
+        form {
+            /* Just to center the form on the page */
+            /*margin: 0 auto;*/
+            width: 400px;
+            /* To see the outline of the form */
+            padding: 1em;
+            border: 1px solid #CCC;
+            border-radius: 1em;
+        }
+        form div + div {
+            margin-top: 1em;
+        }
+        label {
+            /* To make sure that all labels have the same size and are properly aligned */
+            display: inline-block;
+            width: 90px;
+            text-align: right;
+        }
+        input, textarea {
+            /* To make sure that all text fields have the same font settings By default, textareas have a monospace font */
+            font: 1em sans-serif;
+            /* To give the same size to all text fields */
+            width: 300px;
+            box-sizing: border-box; /* To harmonize the look & feel of text field border */
+            border: 1px solid #999;
+        }
+        input:focus, textarea:focus {
+            /* To give a little highlight on active elements */
+            border-color: #000;
+        }
+        textarea {
+            /* To properly align multiline text fields with their labels */
+            vertical-align: top;
+            /* To give enough room to type some text */
+            height: 5em;
+        }
+        .button {
+            /* To position the buttons to the same position of the text fields */
+            padding-left: 90px;
+            /* same size as the label elements */
+        }
+        button {
+            /* This extra margin represent roughly the same space as the space between the labels and their text fields */
+            margin-left: .5em;
+            width: 100px;
+        }
+    </style>
+</head>
+
+<body>
+<h3>添加书籍信息</h3>
+<form action="/api/public/guanli/form_test" method="post">
+    <div>
+        <label for="password">密码:</label> <input type="text" id="password" name="password">
+    </div>
+    <div>
+        <label for="name">书名:</label> <input type="text" id="name" name="book_name">
+    </div>
+    <div>
+        <label for="cover">封面图片:</label> <input type="text" id="cover" name="book_cover">
+    </div>
+    <div>
+        <label for="intro">介绍:</label> <textarea id="intro" name="book_intro"></textarea>
+    </div>
+    <div class="button">
+        <button type="submit">保存</button>
+    </div>
+</form>
+
+
+
+<h3>添加文章信息</h3>
+<form action="/api/public/guanli/article" method="post">
+    <div>
+        <label for="password1">密码:</label> <input type="text" id="password1" name="password">
+    </div>
+    <div>
+        <label for="type">文章类型:</label> <input type="number" id="type" name="type">
+        <h6>1.关于书虫; 2.每日一篇带详情; 3.每日一篇只有URL; 4.为您推荐</h6>
+    </div>
+    <div>
+        <label for="article_title">名称:</label> <input type="text" id="article_title" name="title">
+    </div>
+    <div>
+        <label for="media_type">媒体类型:</label> <input type="text" id="media_type" name="mediaType">
+    </div>
+    <div>
+        <label for="media_url">媒体文件:</label> <input type="text" id="media_url" name="mediaUrl">
+    </div>
+    <div>
+        <label for="media_title">媒体标题:</label> <input type="text" id="media_title" name="mediaTitle">
+    </div>
+    <div>
+        <label for="intro_title">简介标题:</label> <input type="text" id="intro_title" name="introductionTitle">
+    </div>
+    <div>
+        <label for="article_intro">简介:</label> <textarea id="article_intro" name="introduction"></textarea>
+    </div>
+    <div>
+        <label for="bookId">书籍id:</label> <input type="number" id="bookId" name="bookId">
+    </div>
+    <div>
+        <label for="url">文章链接:</label> <input type="text" id="url" name="url">
+    </div>
+    <div>
+        <label for="imageCenter">中图url:</label> <input type="text" id="imageCenter" name="imageCenter"></input>
+    </div>
+    <div>
+        <label for="summary">简短介绍:</label> <textarea id="summary" name="summary"></textarea>
+    </div>
+    <div class="button">
+        <button type="submit">保存</button>
+    </div>
+</form>
+</body>
+
+</html>
