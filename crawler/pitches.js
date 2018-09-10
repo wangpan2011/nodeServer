@@ -32,24 +32,74 @@ function test() {
 }
 function crawler() {
 
-    let creditCard = sequelize.define('card', {
+    let pitches = sequelize.define('pitch', {
         id: {
-            type: Sequelize.STRING(255),
-            primaryKey: true
+            type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+            primaryKey: true,
+            autoIncrement: true
         },
-        card_id_md5: Sequelize.STRING(255),
-        card_des: Sequelize.STRING(255),
-        card_name: Sequelize.STRING(255),
-        card_image: Sequelize.STRING(255),
-        card_image_big: Sequelize.STRING(255),
-        apply_total: Sequelize.STRING(255),
-        useName: Sequelize.STRING(255),
-        levelName: Sequelize.STRING(255),
-        bankName: Sequelize.STRING(255)
+        stadiumId: Sequelize.DataTypes.INTEGER.UNSIGNED,
+        parentId: {
+            type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+            defaultValue: 0
+        },
+        grassType: {
+            type: Sequelize.DataTypes.TINYINT.UNSIGNED,
+            defaultValue: 2
+        },
+        shieldType: {
+            type: Sequelize.DataTypes.TINYINT.UNSIGNED,
+            defaultValue: 1
+        },
+        grassClass: {
+            type: Sequelize.DataTypes.TINYINT.UNSIGNED,
+            defaultValue: 0
+        },
+        light: {
+            type: Sequelize.DataTypes.TINYINT.UNSIGNED,
+            defaultValue: 0
+        },
     }, {
         timestamps: false
     });
-
+    let stadiums = sequelize.define('stadium', {
+        id: {
+            type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        name: Sequelize.DataTypes.STRING(255),
+        locationText: Sequelize.DataTypes.STRING(255),
+        locationCoordinateLatitude: Sequelize.DataTypes.FLOAT(7, 3),
+        locationCoordinateLatitude: Sequelize.DataTypes.FLOAT(7, 3),
+        locationProvince: Sequelize.DataTypes.STRING(255),
+        locationCity: Sequelize.DataTypes.STRING(255),
+        locationDistrict: Sequelize.DataTypes.STRING(255),
+        trafficTips: Sequelize.DataTypes.STRING(255),
+        introduction: Sequelize.DataTypes.STRING(2000),
+        chargeTips: Sequelize.DataTypes.STRING(600),
+        openTimeTips: Sequelize.DataTypes.STRING(100),
+        contactName: Sequelize.DataTypes.STRING(30),
+        contactPhoneNumber: Sequelize.DataTypes.STRING(13),
+        adminId: {
+            type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+            defaultValue: 1
+        }
+    }, {
+        timestamps: false
+    });
+    let stadiumImages = sequelize.define('stadiumImage', {
+        id: {
+            type: Sequelize.DataTypes.INTEGER.UNSIGNED,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        path: Sequelize.DataTypes.STRING(255),
+        stadiumId: Sequelize.DataTypes.INTEGER.UNSIGNED,
+        isMainPhoto: Sequelize.DataTypes.BOOLEAN
+    }, {
+        timestamps: false
+    });
 
 
     for(let city in cities) {
@@ -60,7 +110,7 @@ function crawler() {
         axios.get(url)
             .then(data => {
                 let maxPage = getMaximumPagination(data);
-                loadPageData(url, page);
+                loadPageData(url, 1);
             })
             .catch(e => console.log(e));
     });
@@ -70,6 +120,7 @@ function crawler() {
             .then(data => {
                 let $ = cheerio.load(data.data);
                 let pitchList = $(".mainbody>.listbody>.singlelist");
+
             });
     }
 
