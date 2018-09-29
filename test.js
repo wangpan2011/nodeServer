@@ -1,27 +1,30 @@
 const Sequelize = require('sequelize');
+let fs = require('fs');
 console.log("uuidv1 = " + Sequelize.DataTypes.UUIDV1);
 console.log("uuidv4 = " + Sequelize.DataTypes.UUIDV4());
-let sequelize = new Sequelize('mysql://root:123@47.94.252.111:3306/testShuchong');
-// sequelize
-//     .authenticate()
-//     .then(() => {
-//         console.log('Connection has been established successfully.');
-//     })
-//     .catch(err => {
-//         console.error('Unable to connect to the database:', err);
-//     });
+let sequelize = new Sequelize('mysql://root:890116@localhost:3306/test');
 
-// let getJson = () => new Promise((resolve, reject) => {
-//     setTimeout(() => resolve({a: "b"}), 1000);
-// });
-// //getJson().then(data => console.log(data));
-//
-// let makeRequest = async () => {
-//     console.log(await getJson)
-//     return "done";
-// };
-// let a = makeRequest();
-// a.then(data => console.log(data));
+
+sequelize
+    .authenticate()
+    .then(() => {
+        console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+        console.error('Unable to connect to the database:', err);
+    });
+
+let getJson = () => new Promise((resolve, reject) => {
+    setTimeout(() => resolve({a: "b"}), 1000);
+});
+//getJson().then(data => console.log(data));
+
+let makeRequest = async () => {
+    console.log(await getJson)
+    return "done";
+};
+let a = makeRequest();
+a.then(data => console.log(data));
 
 requestParams = {
     appVersion: "2.1.0", //App版本号
@@ -47,4 +50,3 @@ updateInfo = {
         msg: "更新文案" //一般为空
     }
 }
-

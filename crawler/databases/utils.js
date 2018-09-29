@@ -12,6 +12,7 @@ module.exports.createTable = function (modelName) {
         //         }));
 
         let keys = Object.keys(Models);
+        //要先创建Stadium表
         keys.sort((k1, k2) => (k1 == "Stadium" || k2 == "Stadium") ? (k1 == "Stadium" ? -1 : 1) : 0);
         let runner = () => new Promise((resolve, reject) => {
             if(keys.length == 0) {
