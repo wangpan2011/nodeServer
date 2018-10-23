@@ -67,6 +67,7 @@ module.exports = {
         });
     },
     'POST /api/public/ossCallback': async (ctx, next) => {
+        logger.debug("ossCallback request = %j", ctx.request);
         ctx.rest({
             ...ctx.request.body
         })
