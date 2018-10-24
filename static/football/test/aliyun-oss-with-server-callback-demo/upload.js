@@ -62,11 +62,11 @@ function get_signature()
         obj = obj.data;
         host = obj['host']
         policyBase64 = obj['policy']
-        accessid = obj['accessid']
+        accessid = obj['accessId']
         signature = obj['signature']
-        expire = parseInt(obj['expire'])
+        expire = parseInt(obj['expireTime'])
         callbackbody = obj['callback'] 
-        key = obj['dir']
+        key = obj['dirPath']
         return true;
     }
     return false;

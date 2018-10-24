@@ -56,11 +56,11 @@ module.exports = {
         };
         const callback = Buffer(JSON.stringify(callbackBody)).toString('base64');
         ctx.rest({
-            Signature,
+            'signature': Signature,
             policy,
             host,
-            'OSSAccessKeyId': accessKeyId,
-            'key': expireTime,
+            'accessId': accessKeyId,
+            'expireTime': expireTime,
             'success_action_status': 200,
             dirPath,
             callback
