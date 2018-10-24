@@ -16,7 +16,7 @@ const config = {
     accessKeySecret: 'cwso6ZnSJrxYxe862Iau9oN5ke9VcW', //申请的osssecret
     callbackHost: "www.ooooooo.online", //回调host,一定要能被外网访问的地址
     callbackPort: "3000", //回调端口
-    callbackPath: "acapi/be/ossCallback", //回调接口
+    callbackPath: "api/public/ossCallback", //回调接口
     expAfter: 60000, //签名失效时间
     maxSize: 1048576000 //最大文件大小
 }

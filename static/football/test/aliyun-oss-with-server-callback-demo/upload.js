@@ -59,6 +59,7 @@ function get_signature()
     {
         body = send_request()
         var obj = eval ("(" + body + ")");
+        obj = obj.data;
         host = obj['host']
         policyBase64 = obj['policy']
         accessid = obj['accessid']
