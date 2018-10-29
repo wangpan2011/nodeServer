@@ -51,7 +51,7 @@ module.exports = {
         const callbackBody = {
             "callbackUrl": `http://${callbackHost}:${callbackPort}/${callbackPath}`,
             "callbackHost": `${callbackHost}`,
-            "callbackBody": "{\"filename\": ${object},\"size\": ${size}}",
+            "callbackBody": "{\"filename\": ${object},\"size\": ${size},\"var1\": ${x:var1}}",
             "callbackBodyType": "application/json"
         };
         const callback = Buffer(JSON.stringify(callbackBody)).toString('base64');
@@ -67,7 +67,7 @@ module.exports = {
         });
     },
     'POST /api/public/ossCallback': async (ctx, next) => {
-        console.log("ossCallback request = " + JSON.stringify(ctx.request()));
+        console.log("ossCallback request = " + JSON.stringify(ctx.request.body));
         ctx.rest({
             ...ctx.request.body
         })
