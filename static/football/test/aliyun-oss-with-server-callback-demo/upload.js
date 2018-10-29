@@ -137,6 +137,8 @@ function set_upload_param(up, filename, ret)
         'success_action_status' : '200', //让服务端返回200,不然，默认会返回204
         'callback' : callbackbody,
         'signature': signature,
+        'x:var1': 'wang',
+        'x:var2': 'liyan'
     };
 
     up.setOption({
